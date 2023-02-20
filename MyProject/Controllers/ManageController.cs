@@ -20,12 +20,23 @@ namespace MyProject.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetTodoItemList()
+        public async Task<ActionResult<IEnumerable<Product>>> ProductList()
         {
             return await _context.Products.ToListAsync();
         }
 
-        
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Product>> ProductItem(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return product;
+        }
     }
 }
