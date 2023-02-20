@@ -44,9 +44,19 @@ namespace MyProject.Controllers
         {
             _context.Products.Add(productItem);
             await _context.SaveChangesAsync();
+            //當資料新增時，同時利用 GetProductItem 這個Action(利用id去查詢) 看生成了什麼資料
             return CreatedAtAction("GetProductItem",
                      new { id = productItem.ProductId },productItem);
 
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutProductItem(int id, Product productItem)
+        {
+
+            _context.Entry(productItem).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }
