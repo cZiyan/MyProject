@@ -27,7 +27,7 @@ namespace MyProject.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> ProductItem(int id)
+        public async Task<ActionResult<Product>> GetProductItem(int id)
         {
             var product = await _context.Products.FindAsync(id);
 
@@ -37,6 +37,16 @@ namespace MyProject.Controllers
             }
 
             return product;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Product>> PostProductItem(Product productItem)
+        {
+            _context.Products.Add(productItem);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetProductItem",
+                     new { id = productItem.ProductId },productItem);
+
         }
     }
 }
